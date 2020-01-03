@@ -1,0 +1,556 @@
+===========================================================================================================
+============================================================================================================
+CONTROLLER===>
+[root@CONTROLLER ~(keystone_admin)]# hostname
+CONTROLLER.packstack.com
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master ovs-system state UP group default qlen 1000
+    link/ether 52:54:00:64:c0:02 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::5054:ff:fe64:c002/64 scope link 
+       valid_lft forever preferred_lft forever
+3: ovs-system: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 5a:09:24:d6:3d:4e brd ff:ff:ff:ff:ff:ff
+4: br-int: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether de:b0:38:e2:1f:4d brd ff:ff:ff:ff:ff:ff
+5: br-ex: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/ether c2:46:40:70:5b:46 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.122.10/24 brd 192.168.122.255 scope global br-ex
+       valid_lft forever preferred_lft forever
+    inet6 fe80::c046:40ff:fe70:5b46/64 scope link 
+       valid_lft forever preferred_lft forever
+6: genev_sys_6081: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 65000 qdisc noqueue master ovs-system state UNKNOWN group default qlen 1000
+    link/ether 46:8a:b5:2c:04:45 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::448a:b5ff:fe2c:445/64 scope link 
+       valid_lft forever preferred_lft forever
+[root@CONTROLLER ~(keystone_admin)]# 
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# openstack-status
+== Nova services ==
+openstack-nova-api:                     active
+openstack-nova-compute:                 inactive  (disabled on boot)
+openstack-nova-network:                 inactive  (disabled on boot)
+openstack-nova-scheduler:               active
+openstack-nova-conductor:               active
+openstack-nova-console:                 inactive  (disabled on boot)
+openstack-nova-consoleauth:             active
+openstack-nova-xvpvncproxy:             inactive  (disabled on boot)
+== Glance services ==
+openstack-glance-api:                   active
+openstack-glance-registry:              active
+== Keystone service ==
+openstack-keystone:                     inactive  (disabled on boot)
+== Horizon service ==
+openstack-dashboard:                    active
+== neutron services ==
+neutron-server:                         active
+neutron-dhcp-agent:                     inactive  (disabled on boot)
+neutron-l3-agent:                       inactive  (disabled on boot)
+neutron-metadata-agent:                 inactive  (disabled on boot)
+== Cinder services ==
+openstack-cinder-api:                   active
+openstack-cinder-scheduler:             active
+openstack-cinder-volume:                active
+openstack-cinder-backup:                active
+== Support services ==
+openvswitch:                            active
+dbus:                                   active
+target:                                 active
+rabbitmq-server:                        active
+memcached:                              active
+== Keystone users ==
++----------------------------------+-----------+
+| ID                               | Name      |
++----------------------------------+-----------+
+| 0cc30cf8344f419ebee146df57b22ca6 | glance    |
+| 0d66f4f3abf845d9b58cadb4f91fb601 | admin     |
+| 6b6f49efa1ff47b9a9328064b32b8c1e | placement |
+| 9e0302737cd24cd283a60d034975c00f | nova      |
+| b8a4bf90e69c44d9825ceb7c7716cf81 | swift     |
+| c8add53eb9164f1082c07b192183d6aa | neutron   |
+| e3ac310348fc4eacafe24c5bedf883f2 | cinder    |
++----------------------------------+-----------+
+== Glance images ==
++--------------------------------------+--------------------------+
+| ID                                   | Name                     |
++--------------------------------------+--------------------------+
+| c54b0d8b-c16e-4ccb-9f81-5e97d16af326 | cirros-0.3.4-x86_64-disk |
++--------------------------------------+--------------------------+
+== Nova managed services ==
++--------------------------------------+------------------+--------------------------+----------+---------+-------+----------------------------+-----------------+-------------+
+| Id                                   | Binary           | Host                     | Zone     | Status  | State | Updated_at                 | Disabled Reason | Forced down |
++--------------------------------------+------------------+--------------------------+----------+---------+-------+----------------------------+-----------------+-------------+
+| 7afc2cab-a6bf-481c-ae31-a792c8fdf5cc | nova-conductor   | CONTROLLER.packstack.com | internal | enabled | up    | 2020-01-02T19:41:51.000000 | -               | False       |
+| 95103686-910a-4f3f-af51-baa301e77b9f | nova-scheduler   | CONTROLLER.packstack.com | internal | enabled | up    | 2020-01-02T19:41:50.000000 | -               | False       |
+| 632b57e4-c351-4f81-8366-85c1e0e99ddf | nova-consoleauth | CONTROLLER.packstack.com | internal | enabled | up    | 2020-01-02T19:41:50.000000 | -               | False       |
+| 6e958feb-8faf-440e-ba96-f45b96ce2a60 | nova-compute     | compute1.packstack.com   | nova     | enabled | up    | 2020-01-02T19:41:53.000000 | -               | False       |
+| 4bb567fa-fdf8-4bbf-8a03-9d405c47f5bb | nova-compute     | compute2.packstack.com   | nova     | enabled | up    | 2020-01-02T19:41:45.000000 | -               | False       |
++--------------------------------------+------------------+--------------------------+----------+---------+-------+----------------------------+-----------------+-------------+
+== Nova networks ==
+usage: nova [--version] [--debug] [--os-cache] [--timings]
+            [--os-region-name <region-name>] [--service-type <service-type>]
+            [--service-name <service-name>]
+            [--os-endpoint-type <endpoint-type>]
+            [--os-compute-api-version <compute-api-ver>]
+            [--os-endpoint-override <bypass-url>] [--profile HMAC_KEY]
+            [--insecure] [--os-cacert <ca-certificate>]
+            [--os-cert <certificate>] [--os-key <key>] [--timeout <seconds>]
+            [--collect-timing] [--os-auth-type <name>]
+            [--os-auth-url OS_AUTH_URL] [--os-system-scope OS_SYSTEM_SCOPE]
+            [--os-domain-id OS_DOMAIN_ID] [--os-domain-name OS_DOMAIN_NAME]
+            [--os-project-id OS_PROJECT_ID]
+            [--os-project-name OS_PROJECT_NAME]
+            [--os-project-domain-id OS_PROJECT_DOMAIN_ID]
+            [--os-project-domain-name OS_PROJECT_DOMAIN_NAME]
+            [--os-trust-id OS_TRUST_ID]
+            [--os-default-domain-id OS_DEFAULT_DOMAIN_ID]
+            [--os-default-domain-name OS_DEFAULT_DOMAIN_NAME]
+            [--os-user-id OS_USER_ID] [--os-username OS_USERNAME]
+            [--os-user-domain-id OS_USER_DOMAIN_ID]
+            [--os-user-domain-name OS_USER_DOMAIN_NAME]
+            [--os-password OS_PASSWORD]
+            <subcommand> ...
+error: argument <subcommand>: invalid choice: u'network-list'
+Try 'nova help ' for more information.
+== Nova instance flavors ==
++----+-----------+------------+------+-----------+------+-------+-------------+-----------+-------------+
+| ID | Name      | Memory_MiB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public | Description |
++----+-----------+------------+------+-----------+------+-------+-------------+-----------+-------------+
+| 1  | m1.tiny   | 512        | 1    | 0         |      | 1     | 1.0         | True      | -           |
+| 2  | m1.small  | 2048       | 20   | 0         |      | 1     | 1.0         | True      | -           |
+| 3  | m1.medium | 4096       | 40   | 0         |      | 2     | 1.0         | True      | -           |
+| 4  | m1.large  | 8192       | 80   | 0         |      | 4     | 1.0         | True      | -           |
+| 5  | m1.xlarge | 16384      | 160  | 0         |      | 8     | 1.0         | True      | -           |
++----+-----------+------------+------+-----------+------+-------+-------------+-----------+-------------+
+== Nova instances ==
++--------------------------------------+----------------------------+----------------------------------+---------+------------+-------------+----------------------+
+| ID                                   | Name                       | Tenant ID                        | Status  | Task State | Power State | Networks             |
++--------------------------------------+----------------------------+----------------------------------+---------+------------+-------------+----------------------+
+| 645050cb-329d-4f84-b208-c0e358f8316e | cirros_2019-12-31_08-07-07 | 02c0cc7ffbb549018a25545d8a1ad765 | ACTIVE  | -          | Running     | private=10.10.10.19  |
+| 83f037a1-0fec-4651-a962-9018ce768066 | cirros_2020-01-01_15-19-51 | 02c0cc7ffbb549018a25545d8a1ad765 | SHUTOFF | -          | Shutdown    | private=10.10.10.149 |
+| 86d03e0b-bee3-4a76-8bd5-eeb967f15041 | cirros_2020-01-02_11-24-38 | 02c0cc7ffbb549018a25545d8a1ad765 | ACTIVE  | -          | Running     | private=10.10.10.184 |
++--------------------------------------+----------------------------+----------------------------------+---------+------------+-------------+----------------------+
+
+
+
+
+
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+[root@CONTROLLER ~(keystone_admin)]# openstack service list
++----------------------------------+-----------+--------------+
+| ID                               | Name      | Type         |
++----------------------------------+-----------+--------------+
+| 325864dbc8964f5ab8ad0ff39e192016 | cinderv2  | volumev2     |
+| 48a255da0c8147a8b4a0054e5f18e561 | swift     | object-store |
+| 4b7cd9a7c9cb451a910e14574aa9ebee | cinderv3  | volumev3     |
+| 71897c03ed6847c7a2ddbce7c4bb4317 | neutron   | network      |
+| 784ad4f1889a46f6ba81fcb2c699c580 | glance    | image        |
+| 993687577f1441d99eb761f201647b11 | placement | placement    |
+| aff7f6b96aaf4a13880dbecb019e9dcb | nova      | compute      |
+| e79344aea2df45bd83fdeef63a13e569 | keystone  | identity     |
++----------------------------------+-----------+--------------+
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+[root@CONTROLLER ~(keystone_admin)]# openstack network list
++--------------------------------------+---------+--------------------------------------+
+| ID                                   | Name    | Subnets                              |
++--------------------------------------+---------+--------------------------------------+
+| 0995a59d-242c-4707-a526-91b1c4528286 | public  | 467e105b-b770-41de-8fec-a0003b3a3867 |
+| 58d686d6-e6a9-49f9-8e79-e00432be0bfd | private | 233411b7-e17c-48e2-b6ac-992aa2348653 |
+| db11d4fe-6955-4f54-8cae-ea14e2082e9d | khan    | aa794a23-233f-4a40-83dc-b3ea66225834 |
++--------------------------------------+---------+--------------------------------------+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# openstack server list
++--------------------------------------+----------------------------+---------+----------------------+--------------------------+---------+
+| ID                                   | Name                       | Status  | Networks             | Image                    | Flavor  |
++--------------------------------------+----------------------------+---------+----------------------+--------------------------+---------+
+| 86d03e0b-bee3-4a76-8bd5-eeb967f15041 | cirros_2020-01-02_11-24-38 | ACTIVE  | private=10.10.10.184 | cirros-0.3.4-x86_64-disk | m1.tiny |
+| 83f037a1-0fec-4651-a962-9018ce768066 | cirros_2020-01-01_15-19-51 | SHUTOFF | private=10.10.10.149 | cirros-0.3.4-x86_64-disk | m1.tiny |
+| 645050cb-329d-4f84-b208-c0e358f8316e | cirros_2019-12-31_08-07-07 | ACTIVE  | private=10.10.10.19  | cirros-0.3.4-x86_64-disk | m1.tiny |
++--------------------------------------+----------------------------+---------+----------------------+--------------------------+---------+
+
+
+
+
+
+
+======================================================================================================================================
+=========================================================================================================================================
+
+[root@compute1 ~]# hostname
+compute1.packstack.com
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[root@compute1 ~]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 52:54:00:23:6b:78 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.122.148/24 brd 192.168.122.255 scope global dynamic eth0
+       valid_lft 2652sec preferred_lft 2652sec
+    inet6 fe80::5054:ff:fe23:6b78/64 scope link 
+       valid_lft forever preferred_lft forever
+3: ovs-system: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN qlen 1000
+    link/ether 12:20:a9:ea:7e:a2 brd ff:ff:ff:ff:ff:ff
+4: br-int: <BROADCAST,MULTICAST> mtu 1442 qdisc noop state DOWN qlen 1000
+    link/ether 46:55:dc:e0:92:41 brd ff:ff:ff:ff:ff:ff
+5: genev_sys_6081: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 65000 qdisc noqueue master ovs-system state UNKNOWN qlen 1000
+    link/ether ce:86:20:47:65:ea brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::cc86:20ff:fe47:65ea/64 scope link 
+       valid_lft forever preferred_lft forever
+6: tap45c3d66d-f6: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1442 qdisc pfifo_fast master ovs-system state UNKNOWN qlen 1000
+    link/ether fe:16:3e:7f:cd:87 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::fc16:3eff:fe7f:cd87/64 scope link 
+       valid_lft forever preferred_lft forever
+7: tapb4a71dbe-00@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master ovs-system state UP qlen 1000
+    link/ether 8e:91:cd:e3:64:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::8c91:cdff:fee3:6402/64 scope link 
+       valid_lft forever preferred_lft forever
+[root@compute1 ~]# openstack-status
+== Nova services ==
+openstack-nova-api:                     inactive  (disabled on boot)
+openstack-nova-compute:                 active
+openstack-nova-network:                 inactive  (disabled on boot)
+openstack-nova-scheduler:               inactive  (disabled on boot)
+== neutron services ==
+neutron-server:                         inactive  (disabled on boot)
+neutron-dhcp-agent:                     inactive  (disabled on boot)
+neutron-l3-agent:                       inactive  (disabled on boot)
+neutron-metadata-agent:                 inactive  (disabled on boot)
+== Support services ==
+openvswitch:                            active
+dbus:                                   active
+Warning novarc not sourced
+
+
+
+===============================================================================================================
+=============================================================================================================
+
+
+[root@compute2 ~]# hostname
+compute2.packstack.com
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[root@compute2 ~]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 52:54:00:4e:f1:38 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.122.42/24 brd 192.168.122.255 scope global dynamic eth0
+       valid_lft 2876sec preferred_lft 2876sec
+    inet6 fe80::5054:ff:fe4e:f138/64 scope link 
+       valid_lft forever preferred_lft forever
+3: ovs-system: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN qlen 1000
+    link/ether 32:25:d4:db:72:3f brd ff:ff:ff:ff:ff:ff
+4: br-int: <BROADCAST,MULTICAST> mtu 1442 qdisc noop state DOWN qlen 1000
+    link/ether 7a:d1:fb:f0:92:47 brd ff:ff:ff:ff:ff:ff
+5: genev_sys_6081: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 65000 qdisc noqueue master ovs-system state UNKNOWN qlen 1000
+    link/ether 46:ae:0a:be:34:a6 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::44ae:aff:febe:34a6/64 scope link 
+       valid_lft forever preferred_lft forever
+6: tap83de65de-8f: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1442 qdisc pfifo_fast master ovs-system state UNKNOWN qlen 1000
+    link/ether fe:16:3e:00:35:ad brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::fc16:3eff:fe00:35ad/64 scope link 
+       valid_lft forever preferred_lft forever
+7: tapb4a71dbe-00@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master ovs-system state UP qlen 1000
+    link/ether aa:22:37:73:4b:ce brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::a822:37ff:fe73:4bce/64 scope link 
+       valid_lft forever preferred_lft forever
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[root@compute2 ~]# openstack-status
+== Nova services ==
+openstack-nova-api:                     inactive  (disabled on boot)
+openstack-nova-compute:                 active
+openstack-nova-network:                 inactive  (disabled on boot)
+openstack-nova-scheduler:               inactive  (disabled on boot)
+== neutron services ==
+neutron-server:                         inactive  (disabled on boot)
+neutron-dhcp-agent:                     inactive  (disabled on boot)
+neutron-l3-agent:                       inactive  (disabled on boot)
+neutron-metadata-agent:                 inactive  (disabled on boot)
+== Support services ==
+openvswitch:                            active
+dbus:                                   active
+Warning novarc not sourced
+[root@compute2 ~]# 
+
+=================================================================================
+===================================================================================
+
+
+
+
+
+CONTROLLER NODE:-
+
+I. NOVA
+
+SERVICES:-
+1. The NOVA service consists of the following services:-
+
+[root@CONTROLLER ~(keystone_admin)]# systemctl -a | grep nova
+  openstack-nova-api.service               loaded    active   running   OpenStack Nova API Server
+  openstack-nova-conductor.service         loaded    active   running   OpenStack Nova Conductor Server
+  openstack-nova-consoleauth.service       loaded    active   running   OpenStack Nova VNC console auth Server
+  openstack-nova-novncproxy.service        loaded    active   running   OpenStack Nova NoVNC Proxy Server
+  openstack-nova-scheduler.service         loaded    active   running   OpenStack Nova Scheduler Server
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+PACKAGES:-
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -qa | grep nova
+openstack-nova-api-19.0.3-1.el7.noarch
+openstack-nova-scheduler-19.0.3-1.el7.noarch
+python2-nova-19.0.3-1.el7.noarch
+openstack-nova-novncproxy-19.0.3-1.el7.noarch
+python2-novaclient-13.0.2-1.el7.noarch
+puppet-nova-14.4.0-1.el7.noarch
+openstack-nova-placement-api-19.0.3-1.el7.noarch
+openstack-nova-common-19.0.3-1.el7.noarch
+openstack-nova-console-19.0.3-1.el7.noarch
+openstack-nova-conductor-19.0.3-1.el7.noarch
+
+
+CONFIGURATION FILES:-
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-nova-api-19.0.3-1.el7.noarch | grep "etc"
++++++++++++++++++++++++++++++++++++++++++++
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-nova-scheduler-19.0.3-1.el7.noarch | grep "etc"
++++++++++++++++++++++++++++++++++++++++++++++
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql python2-nova-19.0.3-1.el7.noarch | grep "/etc"
+++++++++++++++++++++++++++++++++++++++++++++++
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-nova-novncproxy-19.0.3-1.el7.noarch | grep "/etc"
+/etc/sysconfig/openstack-nova-novncproxy
++++++++++++++++++++++++++++++++++++++++++++++++++
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql python2-novaclient-13.0.2-1.el7.noarch | grep "/etc"
+/etc/bash_completion.d
+/etc/bash_completion.d/nova
+++++++++++++++++++++++++++++++++++++++++++++++++++
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql puppet-nova-14.4.0-1.el7.noarch | grep "/etc"
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql puppet-nova-14.4.0-1.el7.noarch | grep "/etc"
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-nova-placement-api-19.0.3-1.el7.noarch | grep "/etc"
+/etc/httpd/conf.d/00-nova-placement-api.conf
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-nova-common-19.0.3-1.el7.noarch | grep "/etc"
+/etc/logrotate.d/openstack-nova
+/etc/nova
+/etc/nova/api-paste.ini
+/etc/nova/nova.conf
+/etc/nova/policy.json
+/etc/nova/release
+/etc/nova/rootwrap.conf
+/etc/sudoers.d/nova
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-nova-console-19.0.3-1.el7.noarch | grep "/etc"
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-nova-conductor-19.0.3-1.el7.noarch    | grep "/etc"
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+SUMMARY:-
+MAIN NOVA CONFIGURAION FILE:-
+/etc/nova/nova.conf
+
+MAIN LOG FILE:-
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-nova-common-19.0.3-1.el7.noarch | grep "log"
+/etc/logrotate.d/openstack-nova
+/var/log/nova
+
+
+[root@CONTROLLER ~(keystone_admin)]# cd /var/log/nova
+[root@CONTROLLER nova(keystone_admin)]# ls
+nova-api.log        nova-consoleauth.log  nova-novncproxy.log     nova-scheduler.log
+nova-conductor.log  nova-manage.log       nova-placement-api.log
+[root@CONTROLLER nova(keystone_admin)]# 
+
+
+
+
+II. NEUTRON
+
+SERVICES:-
+
+== neutron services ==
+neutron-server:                         active
+neutron-dhcp-agent:                     inactive  (disabled on boot)
+neutron-l3-agent:                       inactive  (disabled on boot)
+neutron-metadata-agent:                 inactive  (disabled on boot)
+
+[root@CONTROLLER ~(keystone_admin)]# systemctl -a | grep neutron
+  neutron-server.service                loaded    active   running   OpenStack Neutron Server
+
+PACKAGES:-
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -qa | grep -i neutron
+openstack-neutron-ml2-14.0.4-1.el7.noarch
+python2-neutronclient-6.12.0-1.el7.noarch
+openstack-neutron-common-14.0.4-1.el7.noarch
+python2-neutron-14.0.4-1.el7.noarch
+python2-neutron-lib-1.25.0-1.el7.noarch
+openstack-neutron-14.0.4-1.el7.noarch
+puppet-neutron-14.4.0-1.el7.noarch
+[root@CONTROLLER ~(keystone_admin)]# 
+
+----------------------------
+
+CONFIGURATION FILES:-
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-neutron-ml2-14.0.4-1.el7.noarch | grep '/etc'
+/etc/neutron/plugins/ml2
+/etc/neutron/plugins/ml2/ml2_conf.ini
+/etc/neutron/plugins/ml2/sriov_agent.ini
+
++++++++++++++++++++++++++++++++++++
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql python2-neutronclient-6.12.0-1.el7.noarch   | grep '/etc'
+++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-neutron-common-14.0.4-1.el7.noarch   | grep '/etc'
+/etc/logrotate.d/openstack-neutron
+/etc/neutron
+/etc/neutron/conf.d
+/etc/neutron/conf.d/README
+/etc/neutron/conf.d/common
+/etc/neutron/neutron.conf
+/etc/neutron/plugins
+/etc/neutron/rootwrap.conf
+/etc/sudoers.d/neutron
+
++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql python2-neutron-14.0.4-1.el7.noarch  | grep '/etc'
++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql python2-neutron-lib-1.25.0-1.el7.noarch  | grep '/etc'
+++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql openstack-neutron-14.0.4-1.el7.noarch | grep '/etc'
+/etc/neutron/conf.d/neutron-dhcp-agent
+/etc/neutron/conf.d/neutron-l3-agent
+/etc/neutron/conf.d/neutron-linuxbridge-cleanup
+/etc/neutron/conf.d/neutron-metadata-agent
+/etc/neutron/conf.d/neutron-netns-cleanup
+/etc/neutron/conf.d/neutron-ovs-cleanup
+/etc/neutron/conf.d/neutron-server
+/etc/neutron/dhcp_agent.ini
+/etc/neutron/l3_agent.ini
+/etc/neutron/metadata_agent.ini
+
+
+++++++++++++++++++++++++++++++++++++++++
+
+[root@CONTROLLER ~(keystone_admin)]# rpm -ql puppet-neutron-14.4.0-1.el7.noarch | grep '/etc'
++++++++++++++++++++++++++++++++++++++
+
+
+SUMMARY:-
+MAIN NEUTRON CONFIGURAION FILE:-
+/etc/neutron/neutron.conf
+
+/etc/neutron/plugins/ml2/ml2_conf.ini
+/etc/neutron/plugins/ml2/sriov_agent.ini
+
+
+
+MAIN LOG FILE:-
+
+
+[root@CONTROLLER nova(keystone_admin)]# rpm -ql openstack-neutron-common-14.0.4-1.el7.noarch   | grep 'log'
+/etc/logrotate.d/openstack-neutron
+/var/log/neutron
+[root@CONTROLLER nova(keystone_admin)]# cd /var/log/neutron/
+[root@CONTROLLER neutron(keystone_admin)]# ls
+server.log
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
